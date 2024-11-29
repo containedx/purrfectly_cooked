@@ -11,13 +11,19 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        
         Vector2 inputVector = gameInput.GetMovementVectorNormalized();
 
         Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
-        transform.position += moveDir * moveSpeed * Time.deltaTime;
-
         isWalking = moveDir != Vector3.zero;
+
+
+        moveDir = FilterThroughCollision(moveDir);
+
+        if(moveDir != Vector3.zero)
+        {
+            transform.position += moveDir * moveSpeed * Time.deltaTime;
+        }
+    
 
         transform.forward = Vector3.Slerp(transform.forward, moveDir, rotationSpeed * Time.deltaTime);
 
@@ -28,5 +34,38 @@ public class Player : MonoBehaviour
     public bool IsWalking()
     {
         return isWalking;
+    }
+
+    private Vector3 FilterThroughCollision(Vector3 moveDir)
+    {
+        float moveDistance = moveSpeed * Time.deltaTime;
+        float playerRadius = 0.7f;
+        float playerHeight = 2f;
+        bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDir, moveDistance);
+
+        if(!canMove)
+        {
+            Vector3 moveDirX = new Vector3(moveDir.x, 0, 0);
+            canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
+
+            if(canMove)
+            {
+                moveDir = moveDirX.normalized;
+            }
+            else
+            {
+                Vector3 moveDirZ = new Vector3(0, 0, moveDir.z);
+                canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirZ, moveDistance);
+
+                if(canMove)
+                {
+                    moveDir = moveDirZ.normalized;
+                }
+            }
+        }
+
+        if(!canMove) return Vector3.zero;
+
+        return moveDir;
     }
 }
