@@ -12,10 +12,20 @@ public class Player : MonoBehaviour
     private bool isWalking;
     private Vector3 lastInteractDir;
 
+    private void Start()
+    {
+        gameInput.OnInteractAction += GameInput_OnInteractAction;
+    }
+
+    private void GameInput_OnInteractAction(object sender, System.EventArgs e)
+    {
+        HandleInteractions();
+    }
+
     private void Update()
     {
         HandleMovement();
-        HandleInteractions();
+        //HandleInteractions();
     }
 
     public bool IsWalking()
