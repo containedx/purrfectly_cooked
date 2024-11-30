@@ -48,6 +48,9 @@ MonoBehaviour:
   gameInput: {fileID: 0}
   moveSpeed: 5
   rotationSpeed: 10
+  countersLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1001 &3467568939856383789
 PrefabInstance:
   m_ObjectHideFlags: 0

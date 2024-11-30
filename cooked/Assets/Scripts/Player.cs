@@ -7,14 +7,49 @@ public class Player : MonoBehaviour
     [SerializeField] private GameInput gameInput;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rotationSpeed = 10f;
+    [SerializeField] private LayerMask countersLayerMask;
+
     private bool isWalking;
+    private Vector3 lastInteractDir;
 
     private void Update()
+    {
+        HandleMovement();
+        HandleInteractions();
+    }
+
+    public bool IsWalking()
+    {
+        return isWalking;
+    }
+
+    private void HandleInteractions()
+    {
+        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
+        Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
+        if(moveDir != Vector3.zero)
+        {
+            lastInteractDir = moveDir;
+        }
+
+        float interactDistance = 2f;
+        if( Physics.Raycast(transform.position, lastInteractDir, out RaycastHit raycastHit, interactDistance, countersLayerMask) )
+        {
+            if(raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
+            {
+                clearCounter.Interact();
+            }     
+        }
+    }
+
+    private void HandleMovement()
     {
         Vector2 inputVector = gameInput.GetMovementVectorNormalized();
 
         Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
         isWalking = moveDir != Vector3.zero;
+
+        transform.forward = Vector3.Slerp(transform.forward, moveDir, rotationSpeed * Time.deltaTime);
 
 
         moveDir = FilterThroughCollision(moveDir);
@@ -23,17 +58,9 @@ public class Player : MonoBehaviour
         {
             transform.position += moveDir * moveSpeed * Time.deltaTime;
         }
-    
-
-        transform.forward = Vector3.Slerp(transform.forward, moveDir, rotationSpeed * Time.deltaTime);
 
         // ciekawostki: 
         // bez Time.deltaTime player poruszalby sie w roznnej predkosci w roznych FPS
-    }
-
-    public bool IsWalking()
-    {
-        return isWalking;
     }
 
     private Vector3 FilterThroughCollision(Vector3 moveDir)
