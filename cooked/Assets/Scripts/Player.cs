@@ -1,9 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Player : MonoBehaviour
 {
+    public static Player Instance { get; private set; }
+
+
+    public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
+    public class OnSelectedCounterChangedEventArgs : EventArgs{
+        public ClearCounter selectedCounter;
+    }
+
     [SerializeField] private GameInput gameInput;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rotationSpeed = 10f;
@@ -11,6 +20,16 @@ public class Player : MonoBehaviour
 
     private bool isWalking;
     private Vector3 lastInteractDir;
+    private ClearCounter selectedCounter;
+
+    private void Awake()
+    {
+        if(Instance != null)
+        {
+            Debug.LogError("There is more than one Player instance");
+        }
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -19,13 +38,13 @@ public class Player : MonoBehaviour
 
     private void GameInput_OnInteractAction(object sender, System.EventArgs e)
     {
-        HandleInteractions();
+        if(selectedCounter != null ) selectedCounter.Interact();
     }
 
     private void Update()
     {
         HandleMovement();
-        //HandleInteractions();
+        HandleInteractions();
     }
 
     public bool IsWalking()
@@ -47,8 +66,18 @@ public class Player : MonoBehaviour
         {
             if(raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
             {
-                clearCounter.Interact();
-            }     
+                if(clearCounter != selectedCounter) 
+                {
+                    SetSelectedCounter(clearCounter);
+                } 
+            }
+            else
+            {
+                SetSelectedCounter(null);
+            }
+        }
+        else{
+            SetSelectedCounter(null);
         }
     }
 
@@ -104,5 +133,11 @@ public class Player : MonoBehaviour
         if(!canMove) return Vector3.zero;
 
         return moveDir;
+    }
+
+    private void SetSelectedCounter(ClearCounter selectedCounter)
+    {
+        this.selectedCounter = selectedCounter;
+        OnSelectedCounterChanged?.Invoke(this, new OnSelectedCounterChangedEventArgs{selectedCounter = selectedCounter});
     }
 }
