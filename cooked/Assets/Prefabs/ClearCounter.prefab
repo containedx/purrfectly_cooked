@@ -69,7 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4da0f194ca5c49f49a88c41b451d0ad8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredient: {fileID: 11400000, guid: e6bd0a692fdef5643ac7434bd7775f17, type: 2}
+  kitchenObjectSO: {fileID: 11400000, guid: e6bd0a692fdef5643ac7434bd7775f17, type: 2}
   counterAttachPoint: {fileID: 6309191624019163001}
 --- !u!1 &8720249073148660211
 GameObject:
