@@ -2,25 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClearCounter : MonoBehaviour, IKitchenObjectParent
+public class BaseCounter : MonoBehaviour, IKitchenObjectParent
 {
-    [SerializeField] private KitchenObjectSO kitchenObjectSO;
     [SerializeField] private Transform counterAttachPoint;
     private KitchenObject kitchenObject;
 
-    public void Interact(Player player)
+    public virtual void Interact(Player player) 
+    // abstract  forces implementation on children, virtual - can be, but doesnt have to
     {
-        Debug.Log("Interact " + transform);
 
-        if(kitchenObject == null)
-        {
-            Transform kitchenObjectSpawn = Instantiate(kitchenObjectSO.prefab, counterAttachPoint);
-            kitchenObjectSpawn.GetComponent<KitchenObject>().SetKitchenObjectParent(this);
-        }
-        else
-        {
-            kitchenObject.SetKitchenObjectParent(player);
-        }
     }
 
     public Transform GetKitchenObjectFollowTransform()
