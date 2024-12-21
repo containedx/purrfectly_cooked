@@ -342,3 +342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   counterAttachPoint: {fileID: 28568326511076093}
+  cuttingRecipes:
+  - {fileID: 11400000, guid: 97f4bd2bafe9ff946bd347b2832b4b7f, type: 2}
+  - {fileID: 11400000, guid: 929f143977efe1447953f0045e2fc4a8, type: 2}
+  - {fileID: 11400000, guid: 508bd24f65dd1f4438114d02696b3751, type: 2}
