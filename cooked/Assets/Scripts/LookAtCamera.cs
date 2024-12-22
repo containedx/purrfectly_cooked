@@ -8,7 +8,8 @@ public class LookAtCamera : MonoBehaviour
     {
         LookAt,
         LookAtInverted,
-        RotationOnly
+        CameraForward,
+        CameraForwardInverted
     }
 
     [SerializeField] private Mode mode = Mode.LookAtInverted;
@@ -24,10 +25,11 @@ public class LookAtCamera : MonoBehaviour
                 var cameraDir = transform.position - Camera.main.transform.position;
                 transform.LookAt(transform.position + cameraDir);
                 break;
-            case Mode.RotationOnly:
-                var direction = Camera.main.transform.position - transform.position;
-                direction.y = 0;
-                transform.rotation = Quaternion.LookRotation(direction);
+            case Mode.CameraForward:
+                transform.forward = Camera.main.transform.forward;
+                break;
+            case Mode.CameraForwardInverted:
+                transform.forward = -Camera.main.transform.forward;
                 break;
 
         }
