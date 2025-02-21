@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13b536398b4a35f498f39e2ee2b35157, type: 3}
-  m_Name: TofuBurger
+  m_Name: TofuBurgerUncooked
   m_EditorClassIdentifier: 
   prefab: {fileID: 9198161573873798191, guid: fbf690d5054f4ca4fa8eb4f34cb385e0, type: 3}
   icon: {fileID: 21300000, guid: aa1bacc24dde76e47b2ec0dd4e82385b, type: 3}
-  objectName: TofuBurger
+  objectName: TofuBurgerUncooked
