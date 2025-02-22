@@ -339,3 +339,5 @@ MonoBehaviour:
   counterAttachPoint: {fileID: 2450666033986127457}
   fryingRecipes:
   - {fileID: 11400000, guid: 7432dcbfcb0599d4c959fb6e52c0fadf, type: 2}
+  burningRecipes:
+  - {fileID: 11400000, guid: 9bde4350d57604c46aad3705771d4511, type: 2}
