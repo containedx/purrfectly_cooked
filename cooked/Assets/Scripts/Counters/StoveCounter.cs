@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class StoveCounter : BaseCounter
+public class StoveCounter : BaseCounter, IHasProgress
 {
     public event EventHandler<OnStateChangedEventArgs> OnStateChanged;
+    public event EventHandler<OnProgressChangedEventArgs> OnProgressChanged;
     public class OnStateChangedEventArgs : EventArgs {
         public State state;
     }
@@ -33,7 +34,7 @@ public class StoveCounter : BaseCounter
             });
         }
     }
-    
+
     private float timer;
     private FryingRecipeSO recipe;
     private BurningRecipeSO burningRecipe;
@@ -47,7 +48,7 @@ public class StoveCounter : BaseCounter
     {
         if(!HasKitchenObject()) return;
 
-        Debug.Log(state);
+        //Debug.Log(state);
 
         switch(state)
         {
@@ -56,6 +57,10 @@ public class StoveCounter : BaseCounter
             
             case State.Frying:
                 timer += Time.deltaTime;
+                OnProgressChanged?.Invoke(this, new OnProgressChangedEventArgs{
+                    progressNormalized = timer / recipe.fryingTime
+                });
+                
                 if(timer > recipe.fryingTime) // fried
                 {
                     timer = 0f;
@@ -68,12 +73,21 @@ public class StoveCounter : BaseCounter
 
             case State.Fried:
                 timer += Time.deltaTime;
+                OnProgressChanged?.Invoke(this, new OnProgressChangedEventArgs{
+                    progressNormalized = timer / burningRecipe.burningTime
+                });
+
+                
                 if(timer > burningRecipe.burningTime) // fried
                 {
                     timer = 0f;
                     GetKitchenObject().DestroySelf();
                     KitchenObject.SpawnKitchenObject(burningRecipe.output, this);
                     state = State.Burned;
+
+                    OnProgressChanged?.Invoke(this, new OnProgressChangedEventArgs{
+                        progressNormalized = 0f
+                    });
                 }
                 break;
 
@@ -95,6 +109,11 @@ public class StoveCounter : BaseCounter
                     recipe = GetFryingRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSO());
                     state = State.Frying;
                     timer = 0f;
+
+
+                    OnProgressChanged?.Invoke(this, new OnProgressChangedEventArgs{
+                        progressNormalized = timer / recipe.fryingTime
+                    });
                 }
             }
         }
@@ -105,6 +124,10 @@ public class StoveCounter : BaseCounter
             {
                 GetKitchenObject().SetKitchenObjectParent(player);
                 state = State.Idle;
+
+                OnProgressChanged?.Invoke(this, new OnProgressChangedEventArgs{
+                    progressNormalized = 0f
+                });
             }
         }
     }
