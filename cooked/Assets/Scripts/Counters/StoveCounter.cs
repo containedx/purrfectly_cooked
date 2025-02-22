@@ -1,10 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class StoveCounter : BaseCounter
 {
-    private enum State {
+    public event EventHandler<OnStateChangedEventArgs> OnStateChanged;
+    public class OnStateChangedEventArgs : EventArgs {
+        public State state;
+    }
+
+    public enum State {
         Idle,
         Frying,
         Fried,
@@ -14,8 +20,20 @@ public class StoveCounter : BaseCounter
 
     [SerializeField] private FryingRecipeSO[] fryingRecipes;
     [SerializeField] private BurningRecipeSO[] burningRecipes;
+    private State _state;
+    private State state
+    {
+        get => _state;
+        set
+        {
+            _state = value;
 
-    private State state;
+            OnStateChanged?.Invoke(this, new OnStateChangedEventArgs {
+                state = _state
+            });
+        }
+    }
+    
     private float timer;
     private FryingRecipeSO recipe;
     private BurningRecipeSO burningRecipe;
