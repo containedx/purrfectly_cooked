@@ -9,6 +9,8 @@ public class DeliveryManager : MonoBehaviour
 
     public event EventHandler OnRecipeSpawned;
     public event EventHandler OnRecipeCompleted;
+    public event EventHandler OnRecipeSuccess;
+    public event EventHandler OnRecipeFail;
 
 
     [SerializeField] private RecipeListSO recipeList;
@@ -52,10 +54,13 @@ public class DeliveryManager : MonoBehaviour
                 waitingRecipeList.Remove(recipe);
 
                 OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
+                OnRecipeSuccess?.Invoke(this, EventArgs.Empty);
 
                 return;
             }
         }
+
+        OnRecipeFail?.Invoke(this, EventArgs.Empty);
 
         //Debug.Log("player did not deliver correct recipe");
     }
