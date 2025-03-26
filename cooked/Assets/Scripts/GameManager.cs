@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
 
     private float waitingToStartTimer = 1f;
     private float countdownToStartTimer = 3f;
-    private float gamePlayingTimer = 10f;
+    [SerializeField] private float gamePlayingTimer = 10f;
 
 
     private void Awake()
@@ -87,5 +87,10 @@ public class GameManager : MonoBehaviour
     public float GetCountdownToStartTimer()
     {
         return countdownToStartTimer;
+    }
+
+    public bool IsGameOver()
+    {
+        return state == State.GameOver;
     }
 }
