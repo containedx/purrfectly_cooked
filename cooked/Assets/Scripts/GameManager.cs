@@ -32,12 +32,14 @@ public class GameManager : MonoBehaviour
     private float waitingToStartTimer = 1f;
     private float countdownToStartTimer = 3f;
     [SerializeField] private float gamePlayingTimer = 10f;
+    private float gamePlayingTimerLeft = 10f;
 
 
     private void Awake()
     {
         state = State.WaitingToStart;
         Instance = this;
+        gamePlayingTimerLeft = gamePlayingTimer;
     }
 
 
@@ -62,8 +64,8 @@ public class GameManager : MonoBehaviour
                 break;
 
             case State.GamePlaying:
-                gamePlayingTimer -= Time.deltaTime;
-                if( gamePlayingTimer < 0f )
+                gamePlayingTimerLeft -= Time.deltaTime;
+                if( gamePlayingTimerLeft < 0f )
                 {
                     state = State.GameOver;
                 }
@@ -92,5 +94,10 @@ public class GameManager : MonoBehaviour
     public bool IsGameOver()
     {
         return state == State.GameOver;
+    }
+
+    public float GetGamePLayingTimerNormalized()
+    {
+        return 1 - (gamePlayingTimerLeft/gamePlayingTimer);
     }
 }
