@@ -5,17 +5,27 @@ using System;
 
 public class GameInput : MonoBehaviour
 {
+    public static GameInput Instance {get; private set;}
     public event EventHandler OnInteractAction;
     public event EventHandler OnInteractAlternateAction;
+    public event EventHandler OnPauseAction;
     private PlayerInputActions playerInputActions;
 
     private void Awake()
     {
+        Instance = this;
+
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
 
         playerInputActions.Player.Interact.performed += InteractPerformed;
         playerInputActions.Player.InteractAlternate.performed += InteractAlternatePerformed;
+        playerInputActions.Player.Pause.performed += PausePerformed;
+    }
+
+    private void PausePerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        OnPauseAction?.Invoke(this, EventArgs.Empty);
     }
 
     private void InteractPerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
