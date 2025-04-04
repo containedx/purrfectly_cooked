@@ -7,6 +7,7 @@ public class PauseUI : MonoBehaviour
 {
     [SerializeField] private Button resumeButton;
     [SerializeField] private Button mainMenuButton;
+    [SerializeField] private Button optionsButton;
 
 
 
@@ -14,6 +15,7 @@ public class PauseUI : MonoBehaviour
     {
         resumeButton.onClick.AddListener(Resume);
         mainMenuButton.onClick.AddListener(MainMenu);
+        optionsButton.onClick.AddListener(() => OptionsUI.Instance.Show());
     }
 
     private void Start()
