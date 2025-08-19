@@ -6,7 +6,7 @@ using TMPro;
 
 public class OptionsUI : MonoBehaviour
 {
-    public static OptionsUI Instance {get; private set; }
+    public static OptionsUI Instance { get; private set; }
 
 
     [SerializeField] private Button soundEffectsButton;
@@ -16,22 +16,27 @@ public class OptionsUI : MonoBehaviour
     [SerializeField] private TMP_Text soundEffectsText;
     [SerializeField] private TMP_Text musicText;
 
+    [SerializeField] private Transform pressKeyToRebind;
+
 
     private void Awake()
     {
         Instance = this;
 
-        soundEffectsButton.onClick.AddListener( () => {
+        soundEffectsButton.onClick.AddListener(() =>
+        {
             SoundManager.Instance.ChangeVolume();
             UpdateVisual();
         });
 
-        musicButton.onClick.AddListener( () => {
+        musicButton.onClick.AddListener(() =>
+        {
             MusicManager.Instance.ChangeVolume();
             UpdateVisual();
         });
 
-        backButton.onClick.AddListener( () => {
+        backButton.onClick.AddListener(() =>
+        {
             Hide();
         });
     }
@@ -40,6 +45,7 @@ public class OptionsUI : MonoBehaviour
     {
         GameManager.Instance.OnGameUnpaused += GameManager_OnGameUnpaused;
         UpdateVisual();
+        HidePressKeyToRebind();
         Hide();
     }
 
@@ -62,6 +68,16 @@ public class OptionsUI : MonoBehaviour
     public void Hide()
     {
         gameObject.SetActive(false);
+    }
+
+    public void ShowPressKeyToRebind()
+    {
+        pressKeyToRebind.gameObject.SetActive(true);
+    }
+
+    public void HidePressKeyToRebind()
+    {
+        pressKeyToRebind.gameObject.SetActive(false);
     }
 
 }
