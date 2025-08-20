@@ -24,6 +24,8 @@ public class GameInput : MonoBehaviour
         Interact,
         InteractAlternate,
         Pause
+
+        //TODO: add bindings for GamePad
     }
 
     private PlayerInputActions playerInputActions;

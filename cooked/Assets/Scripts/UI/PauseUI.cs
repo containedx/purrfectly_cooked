@@ -15,7 +15,10 @@ public class PauseUI : MonoBehaviour
     {
         resumeButton.onClick.AddListener(Resume);
         mainMenuButton.onClick.AddListener(MainMenu);
-        optionsButton.onClick.AddListener(() => OptionsUI.Instance.Show());
+        optionsButton.onClick.AddListener(() =>{
+            OptionsUI.Instance.Show(Show);
+            Hide();
+            });
     }
 
     private void Start()
@@ -45,10 +48,13 @@ public class PauseUI : MonoBehaviour
     {
         Hide();
     }
-    
+
     private void Show()
     {
         gameObject.SetActive(true);
+        resumeButton.Select();
+
+        //TODO: test with gamepad
     }
 
     private void Hide()

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
+
 
 public class OptionsUI : MonoBehaviour
 {
@@ -17,6 +19,8 @@ public class OptionsUI : MonoBehaviour
     [SerializeField] private TMP_Text musicText;
 
     [SerializeField] private Transform pressKeyToRebind;
+
+    private Action onCloseButtonAction;
 
 
     private void Awake()
@@ -60,9 +64,12 @@ public class OptionsUI : MonoBehaviour
         musicText.text = "music: " + Mathf.Round(MusicManager.Instance.GetVolume() * 10f);
     }
 
-    public void Show()
+    public void Show(Action onCloseButtonAction)
     {
         gameObject.SetActive(true);
+        musicButton.Select();
+
+        this.onCloseButtonAction = onCloseButtonAction;
     }
 
     public void Hide()
