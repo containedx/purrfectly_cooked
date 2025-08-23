@@ -36,6 +36,11 @@ public class SoundManager : MonoBehaviour
         PlaySound(sfxData.warning, Vector3.zero, volume);
     }
 
+    public void PlayWarningSound(Vector3 position)
+    {
+        PlaySound(sfxData.warning, position, volume);
+    }
+
     private void TrashCounter_OnAnyObjectTrashed(object sender, System.EventArgs e)
     {
         TrashCounter counterObject = sender as TrashCounter;

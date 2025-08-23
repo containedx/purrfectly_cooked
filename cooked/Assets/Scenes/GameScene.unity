@@ -9699,6 +9699,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2136415655128846587, guid: 302c6881dd434a4439efad7ff30b0ba8,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5ab04d90f9e9cd646a3bd2193331a761, type: 2}
+    - target: {fileID: 2136415656657737122, guid: 302c6881dd434a4439efad7ff30b0ba8,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5ab04d90f9e9cd646a3bd2193331a761, type: 2}
     - target: {fileID: 3507571252494469342, guid: 302c6881dd434a4439efad7ff30b0ba8,
         type: 3}
       propertyPath: m_LocalPosition.x

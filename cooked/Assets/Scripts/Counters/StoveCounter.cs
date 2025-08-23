@@ -42,6 +42,11 @@ public class StoveCounter : BaseCounter, IHasProgress
     private void Start()
     {
         state = State.Idle;
+
+        OnProgressChanged?.Invoke(this, new OnProgressChangedEventArgs
+        {
+            progressNormalized = 0
+        });
     }
 
     private void Update()
@@ -146,6 +151,11 @@ public class StoveCounter : BaseCounter, IHasProgress
                 }
             }
         }
+    }
+
+    public bool IsFried()
+    {
+        return state == State.Fried;
     }
 
     private bool HasRecipeWithInput(KitchenObjectSO input)
