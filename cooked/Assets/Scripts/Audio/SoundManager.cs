@@ -31,6 +31,11 @@ public class SoundManager : MonoBehaviour
         PlaySound(sfxData.footstep, position, volume);
     }
 
+    public void PlayCountdownSound()
+    {
+        PlaySound(sfxData.warning, Vector3.zero, volume);
+    }
+
     private void TrashCounter_OnAnyObjectTrashed(object sender, System.EventArgs e)
     {
         TrashCounter counterObject = sender as TrashCounter;
