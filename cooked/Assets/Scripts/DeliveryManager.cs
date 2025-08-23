@@ -29,6 +29,8 @@ public class DeliveryManager : MonoBehaviour
 
     private void Update()
     {
+        if (!GameManager.Instance.IsGamePlaying()) return;
+
         if(waitingRecipeMax <= waitingRecipeList.Count) return;
 
         spawnRecipeTimer += Time.deltaTime;
